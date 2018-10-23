@@ -8,5 +8,10 @@ namespace Main_Form
 {
     class Feed
     {
+        public string Url { get; set; }
+        public string Namn { get; set; }
+        public string UppdateringsInterval { get; set; }
+        public Kategori Kategorin { get; set; }
+
     }
 }
