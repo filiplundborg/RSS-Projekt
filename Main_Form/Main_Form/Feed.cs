@@ -12,6 +12,6 @@ namespace Main_Form
         public string Namn { get; set; }
         public string UppdateringsInterval { get; set; }
         public Kategori Kategorin { get; set; }
-
+        public Frekvens Frekvensen { get; set; }
     }
 }
