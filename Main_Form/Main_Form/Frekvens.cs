@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Feed
+    public enum Frekvens
     {
-
-
+        fiveMinutes,
+        tenMinutes,
+        fifteenMinutes,
+        twentyMinutes
     }
 }
