@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    class Feed
+    public class Feed
     {
         public string Url { get; set; }
         public string Namn { get; set; }
