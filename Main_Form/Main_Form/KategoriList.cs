@@ -10,7 +10,12 @@ namespace Main_Form
     {
         public void Save()
         {
+            KategoriDatabaseHandling.Serialize(this);
+        }
 
+        public KategoriList Load()
+        {
+           return KategoriDatabaseHandling.Deserialize();
         }
     }
 }

@@ -15,11 +15,14 @@ namespace Main_Form
 
         private FeedList feedlist;
         private RssList<Avsnitt> EpisodeList;
+        private KategoriList Kategorier;
+
         public Form1()
         {
             InitializeComponent();
             feedlist = new FeedList();
             EpisodeList = new RssList<Avsnitt>();
+            Kategorier = new KategoriList();
             cboxNyUppdatFrekvens.Items.Add("Var 5:e minut");
             cboxNyUppdatFrekvens.Items.Add("Var 10:e minut");
             cboxNyUppdatFrekvens.Items.Add("Var 15:e minut");
@@ -29,7 +32,9 @@ namespace Main_Form
         private void Form1_Load(object sender, EventArgs e)
         {
             feedlist = feedlist.Load();
+            Kategorier = Kategorier.Load();
             Updatelist();
+            UpdateKategorier();
         }
 
         public void Updatelist()
@@ -39,6 +44,14 @@ namespace Main_Form
             {
                 var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn });
                 lvPodcasts.Items.Add(itemsToAdd);
+            }
+        }
+
+        public void UpdateKategorier()
+        {
+            foreach(var kat in Kategorier)
+            {
+                lboxKategori.Items.Add(kat.Category);
             }
         }
 
@@ -91,6 +104,16 @@ namespace Main_Form
         {
             Avsnitt avsnitt = EpisodeList[index];
             rtbBeskrivningAvsnitt.Text = avsnitt.Beskrivning.Replace("<p>", "").Replace("</p>", "");
+        }
+
+        private void btnNyKategori_Click(object sender, EventArgs e)
+        {
+            Kategori kategori = new Kategori();
+            kategori.Category = tbNyKategori.Text;
+            Kategorier.Add(kategori);
+            lboxKategori.Items.Add(kategori.Category);
+            Kategorier.Save();
+            
         }
     }
 }

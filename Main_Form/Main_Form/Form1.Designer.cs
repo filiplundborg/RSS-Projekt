@@ -148,7 +148,6 @@
             this.btnTaBortPodcast.TabIndex = 6;
             this.btnTaBortPodcast.Text = "Ta bort...";
             this.btnTaBortPodcast.UseVisualStyleBackColor = true;
-      
             // 
             // panel1
             // 
@@ -178,7 +177,7 @@
             this.btnNyKategori.TabIndex = 9;
             this.btnNyKategori.Text = "Ny...";
             this.btnNyKategori.UseVisualStyleBackColor = true;
-
+            this.btnNyKategori.Click += new System.EventHandler(this.btnNyKategori_Click);
             // 
             // btnSparaKategori
             // 
