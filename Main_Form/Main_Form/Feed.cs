@@ -39,8 +39,17 @@ namespace Main_Form
             }
                 
         }
+        public RssList<Avsnitt> getListan() {
+            return this.Listan;
+        }
 
-
+        public int AntalAvsnitt()
+        { int antal = 0;
+            for (int i = 0; i < Listan.Count; i++) {
+                antal++;
+            }
+            return antal;
+        }
 
         public Feed Sort(Feed obj)
         {

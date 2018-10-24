@@ -63,6 +63,7 @@
             this.columnNamn,
             this.columnFrekvens,
             this.columnKategori});
+            this.lvPodcasts.FullRowSelect = true;
             this.lvPodcasts.Location = new System.Drawing.Point(33, 30);
             this.lvPodcasts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lvPodcasts.Name = "lvPodcasts";
@@ -70,6 +71,7 @@
             this.lvPodcasts.TabIndex = 0;
             this.lvPodcasts.UseCompatibleStateImageBehavior = false;
             this.lvPodcasts.View = System.Windows.Forms.View.Details;
+            this.lvPodcasts.SelectedIndexChanged += new System.EventHandler(this.lvPodcasts_SelectedIndexChanged);
             // 
             // columnAvsnitt
             // 
@@ -162,6 +164,7 @@
             this.lboxKategori.Location = new System.Drawing.Point(624, 30);
             this.lboxKategori.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lboxKategori.Name = "lboxKategori";
+            this.lboxKategori.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lboxKategori.Size = new System.Drawing.Size(401, 276);
             this.lboxKategori.TabIndex = 8;
             // 
@@ -213,6 +216,7 @@
             this.lboxAvsnitt.Name = "lboxAvsnitt";
             this.lboxAvsnitt.Size = new System.Drawing.Size(504, 244);
             this.lboxAvsnitt.TabIndex = 13;
+            this.lboxAvsnitt.SelectedIndexChanged += new System.EventHandler(this.lboxAvsnitt_SelectedIndexChanged);
             // 
             // rtbBeskrivningAvsnitt
             // 

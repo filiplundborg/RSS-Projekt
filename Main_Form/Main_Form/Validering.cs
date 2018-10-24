@@ -12,7 +12,8 @@ namespace Main_Form
         {
             if(toCheck == "")
             {
-                return false;
+                throw new ArgumentException();
+               
             }
             else
             {
