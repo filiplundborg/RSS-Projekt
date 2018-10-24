@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Kategori 
+    public interface ISortable<T>
     {
-        public string Category{ get; set; }
+        T Sort(T obj);
     }
 }
