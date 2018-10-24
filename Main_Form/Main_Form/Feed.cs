@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Main_Form
 {
@@ -21,6 +22,7 @@ namespace Main_Form
             this.Url = url;
             this.Namn = RSSDataBaseHandling.GetName(Url);
             Listan = RSSDataBaseHandling.GetAvsnitt(Url);
+            Timer timer;
         }
 
         public Feed() { }
@@ -53,6 +55,28 @@ namespace Main_Form
         public Feed Sort(Feed obj)
         {
             throw new NotImplementedException();
+        }
+
+        public void setIntervall() {           
+            switch (Frekvensen) {
+                case Frekvens.fiveMinutes:
+                     var timer1 = new Timer();
+                    timer1.Interval = 300000;
+                    break;
+                case Frekvens.tenMinutes:
+                    var timer2 = new Timer();
+                    timer2.Interval = 600000;
+                    break;
+                case Frekvens.fifteenMinutes:
+                    var timer3 = new Timer();
+                    timer3.Interval = 900000;
+                    break;
+                case Frekvens.twentyMinutes:
+                    var timer4 = new Timer();
+                    timer4.Interval = 12000000;
+                    break;
+
+            } 
         }
     }
 }
