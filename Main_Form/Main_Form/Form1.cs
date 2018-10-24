@@ -17,18 +17,30 @@ namespace Main_Form
         {
             InitializeComponent();
             feedlist = new FeedList();
+            cboxNyUppdatFrekvens.Items.Add("Var 5:e minut");
+            cboxNyUppdatFrekvens.Items.Add("Var 10:e minut");
+            cboxNyUppdatFrekvens.Items.Add("Var 15:e minut");
+            cboxNyUppdatFrekvens.Items.Add("Var 20:e minut");
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            feedlist = feedlist.Load();
+            //feedlist = feedlist.Load();
         }
 
         private void btnNyPod_Click(object sender, EventArgs e)
         {
-            Feed feed = new Feed(tbNyUrl.Text);
-            feedlist.Add(feed);
-            feedlist.Save();
+            try {
+                Validering.IsEmpty(tbNyUrl.Text);
+                Validering.IsEmpty(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
+                Feed feed = new Feed(tbNyUrl.Text);
+                feedlist.Add(feed);
+                feedlist.Save();
+            }
+            catch (ArgumentException ){
+                MessageBox.Show("Samtliga alternativ måste vara ifyllda");
+            }
+            
         }
     }
 }

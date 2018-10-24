@@ -25,22 +25,6 @@ namespace Main_Form
 
         public Feed() { }
 
-        public object Sort(object categori)
-        {
-            Kategori kategori = categori as Kategori;
-
-            if (this.Category == kategori.Category)
-            {
-                return this;
-            }
-            else {
-                return null;
-            }
-                
-        }
-
-
-
         public Feed Sort(Feed obj)
         {
             throw new NotImplementedException();
