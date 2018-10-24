@@ -174,6 +174,7 @@
             this.btnNyKategori.TabIndex = 9;
             this.btnNyKategori.Text = "Ny...";
             this.btnNyKategori.UseVisualStyleBackColor = true;
+            this.btnNyKategori.Click += new System.EventHandler(this.btnNyKategori_Click);
             // 
             // btnSparaKategori
             // 

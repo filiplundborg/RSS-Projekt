@@ -13,6 +13,7 @@ namespace Main_Form
     public partial class Form1 : Form
     {
         private FeedList feedlist;
+        private KategoriList kategorier;
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +30,17 @@ namespace Main_Form
             Feed feed = new Feed(tbNyUrl.Text);
             feedlist.Add(feed);
             feedlist.Save();
+        }
+
+        private void btnNyKategori_Click(object sender, EventArgs e)
+        {
+            Kategori kategori = new Kategori();
+            kategori.Category = tbNyKategori.Text;
+            lboxKategori.Items.Add(kategori.Category);
+
+            
+            kategorier.Add(kategori);
+
         }
     }
 }
