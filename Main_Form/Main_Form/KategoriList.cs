@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Kategori 
+    public class KategoriList : List<Kategori>
     {
-        public string Category{ get; set; }
-        public KategoriList KategoriListan { get; set; }
+        public void Save()
+        {
 
-
-        
-
+        }
     }
 }
