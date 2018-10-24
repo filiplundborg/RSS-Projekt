@@ -148,6 +148,7 @@
             this.btnTaBortPodcast.TabIndex = 6;
             this.btnTaBortPodcast.Text = "Ta bort...";
             this.btnTaBortPodcast.UseVisualStyleBackColor = true;
+            this.btnTaBortPodcast.Click += new System.EventHandler(this.btnTaBortPodcast_Click);
             // 
             // panel1
             // 

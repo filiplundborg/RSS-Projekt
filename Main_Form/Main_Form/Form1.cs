@@ -86,5 +86,10 @@ namespace Main_Form
             Avsnitt avsnitt = EpisodeList[index];
             rtbBeskrivningAvsnitt.Text = avsnitt.Beskrivning.Replace("<p>", "").Replace("</p>", "");
         }
+
+        private void btnTaBortPodcast_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
