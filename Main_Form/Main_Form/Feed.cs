@@ -18,6 +18,7 @@ namespace Main_Form
         
 
         public Feed(string url) {
+
             this.Listan = new RssList<Avsnitt>();
             this.Url = url;
             this.Namn = RSSDataBaseHandling.GetName(Url);
