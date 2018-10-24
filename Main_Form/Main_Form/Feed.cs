@@ -16,9 +16,14 @@ namespace Main_Form
         public RssList<Avsnitt> Listan { get; set; }
         
 
-        public Feed() {
+        public Feed(string url) {
             this.Listan = new RssList<Avsnitt>();
+            this.Url = url;
+            this.Namn = RSSDataBaseHandling.GetName(Url);
+            Listan = RSSDataBaseHandling.GetAvsnitt(Url);
         }
+
+        public Feed() { }
 
         public object Sort(object categori)
         {
@@ -32,6 +37,13 @@ namespace Main_Form
                 return null;
             }
                 
+        }
+
+
+
+        public Feed Sort(Feed obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }
