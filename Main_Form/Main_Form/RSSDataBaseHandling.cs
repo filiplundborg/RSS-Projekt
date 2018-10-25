@@ -52,11 +52,13 @@ namespace Main_Form
         public static FeedList Deserialize()
         {
             FeedList feedList = new FeedList();
-
-            var serializer = new XmlSerializer(typeof(FeedList));
-            using (var reader = new StreamReader(FILEPATH))
+            if (File.Exists(FILEPATH))
             {
-                feedList = serializer.Deserialize(reader) as FeedList;
+                var serializer = new XmlSerializer(typeof(FeedList));
+                using (var reader = new StreamReader(FILEPATH))
+                {
+                    feedList = serializer.Deserialize(reader) as FeedList;
+                }
             }
             return feedList;
         }

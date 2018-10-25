@@ -24,11 +24,13 @@ namespace Main_Form
         public static KategoriList Deserialize()
         {
             KategoriList kategoriList = new KategoriList();
-
-            var serializer = new XmlSerializer(typeof(KategoriList));
-            using (var reader = new StreamReader(PATH))
+            if (File.Exists(PATH))
             {
-                kategoriList = serializer.Deserialize(reader) as KategoriList;
+                var serializer = new XmlSerializer(typeof(KategoriList));
+                using (var reader = new StreamReader(PATH))
+                {
+                    kategoriList = serializer.Deserialize(reader) as KategoriList;
+                }
             }
             return kategoriList;
         }

@@ -35,6 +35,7 @@ namespace Main_Form
             Kategorier = Kategorier.Load();
             Updatelist();
             UpdateKategorier();
+            UppdateraKategoriBox();
         }
 
         public void Updatelist()
@@ -54,7 +55,12 @@ namespace Main_Form
                 lboxKategori.Items.Add(kat.Category);
             }
         }
-
+        public void UppdateraKategoriBox() {
+            cboxNyKategori.Items.Clear();
+            foreach (var k in Kategorier) {
+                cboxNyKategori.Items.Add(k.Category);
+            }
+        }
 
         private void btnNyPod_Click(object sender, EventArgs e)
         {
@@ -113,7 +119,8 @@ namespace Main_Form
             Kategorier.Add(kategori);
             lboxKategori.Items.Add(kategori.Category);
             Kategorier.Save();
-            
+            UppdateraKategoriBox();
+
         }
     }
 }
