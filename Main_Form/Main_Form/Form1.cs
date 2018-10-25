@@ -50,24 +50,28 @@ namespace Main_Form
 
         public void UpdateKategorier()
         {
-            foreach(var kat in Kategorier)
+            Kategorier.Sort();
+            foreach (var kat in Kategorier)
             {
                 lboxKategori.Items.Add(kat.Category);
             }
+           
         }
         public void UppdateraKategoriBox() {
             cboxNyKategori.Items.Clear();
             foreach (var k in Kategorier) {
                 cboxNyKategori.Items.Add(k.Category);
             }
+
         }
 
         private void btnNyPod_Click(object sender, EventArgs e)
         {
             try
             {
+                Validering.KollaOmCbTom(cboxNyKategori);
                 Validering.IsEmpty(tbNyUrl.Text);
-                Validering.IsEmpty(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
+                Validering.KollaOmCbTom(cboxNyUppdatFrekvens);
                 Feed feed = new Feed(tbNyUrl.Text);
                 feedlist.Add(feed);
                 feedlist.Save();
