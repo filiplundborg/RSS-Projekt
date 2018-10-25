@@ -27,6 +27,7 @@ namespace Main_Form
             cboxNyUppdatFrekvens.Items.Add("Var 10:e minut");
             cboxNyUppdatFrekvens.Items.Add("Var 15:e minut");
             cboxNyUppdatFrekvens.Items.Add("Var 20:e minut");
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -36,8 +37,17 @@ namespace Main_Form
             Updatelist();
             UpdateKategorier();
             UppdateraKategoriBox();
+            feedlist.changed += SparaOchLaddaLista;
         }
-
+        public void SparaOchLaddaLista() {
+            feedlist.Save();
+            feedlist = feedlist.Load();
+            Updatelist();
+            feedlist.changed += () =>
+            {
+                SparaOchLaddaLista();
+            };
+            }
         public void Updatelist()
         {
             lvPodcasts.Items.Clear();
@@ -50,7 +60,7 @@ namespace Main_Form
 
         public void UpdateKategorier()
         {
-            Kategorier.Sort();
+            
             foreach (var kat in Kategorier)
             {
                 lboxKategori.Items.Add(kat.Category);
@@ -125,6 +135,16 @@ namespace Main_Form
             Kategorier.Save();
             UppdateraKategoriBox();
 
+        }
+
+        private void btnTaBortPodcast_Click(object sender, EventArgs e)
+        {
+            if (lvPodcasts.SelectedItems.Count > 0)
+            {
+                int items = lvPodcasts.Items.IndexOf(lvPodcasts.SelectedItems[0]);
+                feedlist.RemoveAtIndex(items);
+
+            }
         }
     }
 }
