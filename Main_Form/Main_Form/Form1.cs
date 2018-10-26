@@ -146,10 +146,17 @@ namespace Main_Form
             lboxAvsnitt.Items.Clear();
             Feed feed = feedlist[items];
             EpisodeList = feed.getListan();
-            foreach (var item in EpisodeList)
+            if (EpisodeList != null)
             {
-                lboxAvsnitt.Items.Add(item.Namn);
+                foreach (var item in EpisodeList)
+                {
+                    lboxAvsnitt.Items.Add(item.Namn);
+                }
             }
+            else {
+                return;
+            }
+            
         }
 
         private void lboxAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
