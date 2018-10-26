@@ -47,11 +47,16 @@ namespace Main_Form
         }
 
         public int AntalAvsnitt()
-        { int antal = 0;
-            for (int i = 0; i < Listan.Count; i++) {
-                antal++;
-            }
-            return antal;
+        { 
+            
+                int antal = 0;
+                for (int i = 0; i < Listan.Count; i++)
+                {
+                    antal++;
+                }
+                return antal;
+            
+           
         }
 
         public Feed Sort(Feed obj)

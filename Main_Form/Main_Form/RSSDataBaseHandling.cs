@@ -7,6 +7,7 @@ using System.ServiceModel.Syndication;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Main_Form
 {
@@ -17,30 +18,49 @@ namespace Main_Form
 
         public static string GetName(string path)
         {
-            string url = path;
-            var reader = XmlReader.Create(url);
-            var feed = SyndicationFeed.Load(reader);
+            try
+            {
+                string url = path;
+                var reader = XmlReader.Create(url);
+                var feed = SyndicationFeed.Load(reader);
 
-            return feed.Title.Text;
+                return feed.Title.Text;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("RSS-länken är felaktig!");
+                return null;
+
+            }
         }
 
         public static RssList<Avsnitt> GetAvsnitt(string path)
         {
-            string url = path;
-            var reader = XmlReader.Create(url);
-            var feed = SyndicationFeed.Load(reader);
-            RssList<Avsnitt> listan = new RssList<Avsnitt>();
-            
-            foreach (var items in feed.Items)
+            try
             {
-                Avsnitt avsnitt = new Avsnitt();
-                avsnitt.Namn = items.Title.Text;
-                avsnitt.Beskrivning = items.Summary.Text.Replace("<p>", "").Replace("</p>", "");
+                string url = path;
+                var reader = XmlReader.Create(url);
+                var feed = SyndicationFeed.Load(reader);
+                RssList<Avsnitt> listan = new RssList<Avsnitt>();
 
-                listan.Add(avsnitt);
+                foreach (var items in feed.Items)
+                {
+                    Avsnitt avsnitt = new Avsnitt();
+                    avsnitt.Namn = items.Title.Text;
+                    avsnitt.Beskrivning = items.Summary.Text.Replace("<p>", "").Replace("</p>", "");
+
+                    listan.Add(avsnitt);
+                }
+
+                return listan;
             }
-
-            return listan;
+            catch(Exception Ex)
+            {
+                
+                return null;
+                
+            }
         }
         public static void Serialize(FeedList feedList) {
             var serializer = new XmlSerializer(typeof (FeedList));
