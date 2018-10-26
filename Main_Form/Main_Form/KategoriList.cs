@@ -17,5 +17,10 @@ namespace Main_Form
         {
            return KategoriDatabaseHandling.Deserialize();
         }
+        public void RemoveAtIndex(int index)
+        {
+            this.RemoveAt(index);
+            
+        }
     }
 }

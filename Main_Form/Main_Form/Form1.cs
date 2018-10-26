@@ -94,7 +94,7 @@ namespace Main_Form
 
         public void UpdateKategorier()
         {
-            
+            lboxKategori.Items.Clear();
             foreach (var kat in Kategorier)
             {
                 lboxKategori.Items.Add(kat.Category);
@@ -202,6 +202,17 @@ namespace Main_Form
             }
         }
 
-        
+        private void btnTaBortKategori_Click(object sender, EventArgs e)
+        {
+            if(lboxKategori.SelectedItems.Count > 0)
+            {
+                int index = lboxKategori.SelectedIndex;
+                Kategorier.RemoveAtIndex(index);
+            }
+            UpdateKategorier();
+            Kategorier.Save();
+            Kategorier.Load();
+            UppdateraKategoriBox();
+        }
     }
 }
