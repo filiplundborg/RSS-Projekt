@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
+
 
 namespace Main_Form
 {
@@ -69,7 +69,7 @@ namespace Main_Form
                 {
                     Listan = RSSDataBaseHandling.GetAvsnitt(Url);
                     andrad();
-                    await Task.Delay(UppdateringsInterval*1000);
+                    await Task.Delay(UppdateringsInterval*60000);
                 }
             });
         }

@@ -35,7 +35,6 @@ namespace Main_Form
             feedlist = feedlist.Load();
             feedlist.LaggTillEvent();
             feedlist.uppdatera += () => {
-                MessageBox.Show("Uppdaterat!");
                 UpdateListOtherThread();
                  feedlist.Save(); 
             };
@@ -72,7 +71,6 @@ namespace Main_Form
 
         public void SparaOchLaddaLista() {
             feedlist.Save();
-            feedlist = feedlist.Load();
             Updatelist();
             feedlist.changed += () =>
             {
@@ -149,18 +147,23 @@ namespace Main_Form
             lboxAvsnitt.Items.Clear();
             Feed feed = feedlist[items];
             EpisodeList = feed.getListan();
-            if (EpisodeList != null)
-            {
-                foreach (var item in EpisodeList)
-                {
-                    lboxAvsnitt.Items.Add(item.Namn);
-                }
-            }
-            else {
-                return;
-            }
             
+                if (EpisodeList != null)
+                {
+                    foreach (var item in EpisodeList)
+                    {
+                        lboxAvsnitt.Items.Add(item.Namn);
+                    }
+                }
+                else
+                {
+                    return;
+                }
         }
+            
+           
+            
+   
 
         private void lboxAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
         {
