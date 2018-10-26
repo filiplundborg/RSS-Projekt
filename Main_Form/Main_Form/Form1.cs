@@ -23,10 +23,10 @@ namespace Main_Form
             feedlist = new FeedList();
             EpisodeList = new RssList<Avsnitt>();
             Kategorier = new KategoriList();
-            cboxNyUppdatFrekvens.Items.Add("Var 5:e minut");
-            cboxNyUppdatFrekvens.Items.Add("Var 10:e minut");
-            cboxNyUppdatFrekvens.Items.Add("Var 15:e minut");
-            cboxNyUppdatFrekvens.Items.Add("Var 20:e minut");
+            cboxNyUppdatFrekvens.Items.Add("5");
+            cboxNyUppdatFrekvens.Items.Add("10");
+            cboxNyUppdatFrekvens.Items.Add("15");
+            cboxNyUppdatFrekvens.Items.Add("20");
             
         }
 
@@ -82,10 +82,13 @@ namespace Main_Form
                 Validering.KollaOmCbTom(cboxNyKategori);
                 Validering.IsEmpty(tbNyUrl.Text);
                 Validering.KollaOmCbTom(cboxNyUppdatFrekvens);
+                int frekvens = int.Parse(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
                 Feed feed = new Feed(tbNyUrl.Text);
+                feed.UppdateringsInterval = frekvens;
                 feedlist.Add(feed);
                 feedlist.Save();
                 Updatelist();
+
             }
             catch (ArgumentException)
             {

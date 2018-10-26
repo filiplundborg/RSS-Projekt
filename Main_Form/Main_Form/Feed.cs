@@ -11,9 +11,8 @@ namespace Main_Form
     {
         public string Url { get; set; }
         public string Namn { get; set; }
-        public string UppdateringsInterval { get; set; }
+        public int UppdateringsInterval { get; set; }
         public Kategori Kategorin { get; set; }
-        public Frekvens Frekvensen { get; set; }
         public RssList<Avsnitt> Listan { get; set; }
         
 
@@ -23,10 +22,12 @@ namespace Main_Form
             this.Url = url;
             this.Namn = RSSDataBaseHandling.GetName(Url);
             Listan = RSSDataBaseHandling.GetAvsnitt(Url);
-            Timer timer;
+            setTimer();
         }
 
-        public Feed() { }
+        public Feed() {
+            setTimer();
+        }
 
         public object Sort(object categori)
         {
@@ -58,26 +59,19 @@ namespace Main_Form
             throw new NotImplementedException();
         }
 
-        public void setIntervall() {           
-            switch (Frekvensen) {
-                case Frekvens.fiveMinutes:
-                     var timer1 = new Timer();
-                    timer1.Interval = 300000;
-                    break;
-                case Frekvens.tenMinutes:
-                    var timer2 = new Timer();
-                    timer2.Interval = 600000;
-                    break;
-                case Frekvens.fifteenMinutes:
-                    var timer3 = new Timer();
-                    timer3.Interval = 900000;
-                    break;
-                case Frekvens.twentyMinutes:
-                    var timer4 = new Timer();
-                    timer4.Interval = 12000000;
-                    break;
-
-            } 
+        public void setTimer()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    Listan = RSSDataBaseHandling.GetAvsnitt(Url);
+                    await Task.Delay(UppdateringsInterval*60000);
+                }
+            });
         }
+
+        
     }
-}
+    }
+

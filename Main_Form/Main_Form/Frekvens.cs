@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public enum Frekvens
-    {
-        fiveMinutes,
-        tenMinutes,
-        fifteenMinutes,
-        twentyMinutes
+    public class Frekvens {
+        
     }
-
 }
