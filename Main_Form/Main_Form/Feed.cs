@@ -14,7 +14,9 @@ namespace Main_Form
         public int UppdateringsInterval { get; set; }
         public Kategori Kategorin { get; set; }
         public RssList<Avsnitt> Listan { get; set; }
-        
+        public delegate void UppdateringsHanterare();
+        public event UppdateringsHanterare andrad;
+
 
         public Feed(string url) {
 
@@ -46,18 +48,13 @@ namespace Main_Form
             return this.Listan;
         }
 
-        public int AntalAvsnitt()
-        { 
+        public int AntalAvsnitt() => Listan != null ? Listan.Count : 0;
+         
             
-                int antal = 0;
-                for (int i = 0; i < Listan.Count; i++)
-                {
-                    antal++;
-                }
-                return antal;
+                
             
            
-        }
+        
 
         public Feed Sort(Feed obj)
         {
@@ -71,7 +68,8 @@ namespace Main_Form
                 while (true)
                 {
                     Listan = RSSDataBaseHandling.GetAvsnitt(Url);
-                    await Task.Delay(UppdateringsInterval*60000);
+                    andrad();
+                    await Task.Delay(UppdateringsInterval*1000);
                 }
             });
         }

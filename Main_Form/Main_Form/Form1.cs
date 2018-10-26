@@ -33,11 +33,41 @@ namespace Main_Form
         private void Form1_Load(object sender, EventArgs e)
         {
             feedlist = feedlist.Load();
+            feedlist.LaggTillEvent();
+            feedlist.uppdatera += () => {
+                MessageBox.Show("Uppdaterat!");
+                UpdateListOtherThread();
+                 feedlist.Save(); 
+            };
             Kategorier = Kategorier.Load();
             Updatelist();
             UpdateKategorier();
             UppdateraKategoriBox();
             feedlist.changed += SparaOchLaddaLista;
+        }
+
+        public void UpdateListOtherThread() {
+            if (lvPodcasts.InvokeRequired)
+            {
+                lvPodcasts.Invoke((MethodInvoker)delegate
+                {
+                    lvPodcasts.Items.Clear();
+                    foreach (var item in feedlist)
+                    {
+                        var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
+                        lvPodcasts.Items.Add(itemsToAdd);
+                    }
+                });
+            }
+            else {
+                lvPodcasts.Items.Clear();
+                foreach (var item in feedlist)
+                {
+                    var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
+                    lvPodcasts.Items.Add(itemsToAdd);
+                }
+                
+            }
         }
         public void SparaOchLaddaLista() {
             feedlist.Save();
@@ -48,14 +78,16 @@ namespace Main_Form
                 SparaOchLaddaLista();
             };
             }
+
         public void Updatelist()
         {
             lvPodcasts.Items.Clear();
             foreach (var item in feedlist)
             {
-                var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn });
+                var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                 lvPodcasts.Items.Add(itemsToAdd);
             }
+          
         }
 
         public void UpdateKategorier()
@@ -86,7 +118,10 @@ namespace Main_Form
                 Feed feed = new Feed(tbNyUrl.Text);
                 feed.UppdateringsInterval = frekvens;
                 feedlist.Add(feed);
+                feedlist.LaggTillEvent();
+                
                 feedlist.Save();
+                
                 Updatelist();
 
             }
@@ -149,5 +184,7 @@ namespace Main_Form
 
             }
         }
+
+        
     }
 }

@@ -10,6 +10,8 @@ namespace Main_Form
     {
         public delegate void ListChanged();
         public event ListChanged changed;
+        public delegate void InitialiseraUppdatering();
+        public event InitialiseraUppdatering uppdatera;
 
         public void Save() {
             RSSDataBaseHandling.Serialize(this);
@@ -21,6 +23,17 @@ namespace Main_Form
         public void RemoveAtIndex(int index) {
             this.RemoveAt(index);
             changed();
+        }
+        public void LaggTillEvent() {
+            foreach (var v in this) {
+                v.andrad += () =>
+                {
+                    UppdatForm();
+                };
+            } 
+        }
+        public void UppdatForm() {
+            uppdatera();
         }
     } 
 
