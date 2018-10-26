@@ -36,7 +36,7 @@ namespace Main_Form
             feedlist.LaggTillEvent();
             feedlist.uppdatera += () => {
                 UpdateListOtherThread();
-                 feedlist.Save(); 
+                feedlist.Save(); 
             };
             Kategorier = Kategorier.Load();
             Updatelist();
@@ -62,6 +62,9 @@ namespace Main_Form
                 lvPodcasts.Items.Clear();
                 foreach (var item in feedlist)
                 {
+                    if (item.Listan == null) {
+                        item.Listan = item.ForceList();
+                    }
                     var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                     lvPodcasts.Items.Add(itemsToAdd);
                 }

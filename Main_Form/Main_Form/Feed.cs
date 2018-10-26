@@ -42,15 +42,20 @@ namespace Main_Form
             else {
                 return null;
             }
-                
+
         }
         public RssList<Avsnitt> getListan() {
             return this.Listan;
         }
 
         public int AntalAvsnitt() => Listan != null ? Listan.Count : 0;
-         
-            
+
+        public RssList<Avsnitt> ForceList() {
+            Listan = RSSDataBaseHandling.GetAvsnitt(Url);
+            return Listan;
+        }
+        
+        
                 
             
            
