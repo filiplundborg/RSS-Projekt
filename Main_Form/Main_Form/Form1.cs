@@ -69,6 +69,7 @@ namespace Main_Form
                 
             }
         }
+
         public void SparaOchLaddaLista() {
             feedlist.Save();
             feedlist = feedlist.Load();
@@ -115,8 +116,10 @@ namespace Main_Form
                 Validering.IsEmpty(tbNyUrl.Text);
                 Validering.KollaOmCbTom(cboxNyUppdatFrekvens);
                 int frekvens = int.Parse(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
+                string category = cboxNyKategori.GetItemText(cboxNyKategori.SelectedItem);
                 Feed feed = new Feed(tbNyUrl.Text);
                 feed.UppdateringsInterval = frekvens;
+                feed.Category = category;
                 feedlist.Add(feed);
                 feedlist.LaggTillEvent();
                 
@@ -174,6 +177,7 @@ namespace Main_Form
             UppdateraKategoriBox();
 
         }
+
 
         private void btnTaBortPodcast_Click(object sender, EventArgs e)
         {
