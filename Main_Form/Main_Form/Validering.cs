@@ -13,7 +13,7 @@ namespace Main_Form
         {
             if(toCheck == "")
             {
-                throw new ArgumentException();
+                throw new RssReaderException("Fälten får inte vara tomma");
                
             }
             else
@@ -30,9 +30,24 @@ namespace Main_Form
             }
             else
             {
-                throw new ArgumentException();
+                throw new RssReaderException("Ett alternativ måste väljas");
             }
 
         }
+
+        public static bool CheckRssLink(string url) {
+            string title = RSSDataBaseHandling.GetName(url);
+            if (title != null) {
+                return true;
+            }
+            else
+            {
+                throw new RssReaderException("Kan inte hitta någon data." + "\n" + "Kontrollera den angivna länken.");
+            }
+            
+            
+        }
+
+        
     }
 }

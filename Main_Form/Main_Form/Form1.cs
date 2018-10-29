@@ -112,10 +112,11 @@ namespace Main_Form
         private void btnNyPod_Click(object sender, EventArgs e)
         {
             try
-            {
+            { 
                 Validering.KollaOmCbTom(cboxNyKategori);
                 Validering.IsEmpty(tbNyUrl.Text);
                 Validering.KollaOmCbTom(cboxNyUppdatFrekvens);
+                Validering.CheckRssLink(tbNyUrl.Text);
                 int frekvens = int.Parse(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
                 string category = cboxNyKategori.GetItemText(cboxNyKategori.SelectedItem);
                 Feed feed = new Feed(tbNyUrl.Text);
@@ -129,9 +130,9 @@ namespace Main_Form
                 Updatelist();
 
             }
-            catch (ArgumentException)
+            catch (RssReaderException rss)
             {
-                MessageBox.Show("Samtliga alternativ måste vara ifyllda");
+                MessageBox.Show(rss.UserMessage);
             }
 
         }
@@ -182,12 +183,20 @@ namespace Main_Form
 
         private void btnNyKategori_Click(object sender, EventArgs e)
         {
-            Kategori kategori = new Kategori();
-            kategori.Category = tbNyKategori.Text;
-            Kategorier.Add(kategori);
-            lboxKategori.Items.Add(kategori.Category);
-            Kategorier.Save();
-            UppdateraKategoriBox();
+            try
+            {
+                Validering.IsEmpty(tbNyKategori.Text);
+                Kategori kategori = new Kategori();
+                kategori.Category = tbNyKategori.Text;
+                Kategorier.Add(kategori);
+                lboxKategori.Items.Add(kategori.Category);
+                Kategorier.Save();
+                UppdateraKategoriBox();
+            }
+            catch (RssReaderException rss) {
+                MessageBox.Show(rss.UserMessage);
+            }
+            
 
         }
 
@@ -215,5 +224,21 @@ namespace Main_Form
             Kategorier.Load();
             UppdateraKategoriBox();
         }
+
+        private void btnSparaKategori_Click(object sender, EventArgs e)
+        {
+            if (lboxKategori.SelectedItems.Count > 0)
+            {
+                string nyKategori = tbNyKategori.Text;
+                int index = lboxKategori.SelectedIndex;
+                Kategorier[index].Category = nyKategori;
+
+            }
+            Kategorier.Save();
+            Kategorier.Load();
+            UpdateKategorier();
+            UppdateraKategoriBox();
+        }
+    
     }
 }
