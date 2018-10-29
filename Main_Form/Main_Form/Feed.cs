@@ -23,7 +23,6 @@ namespace Main_Form
             this.Listan = new RssList<Avsnitt>();
             this.Url = url;
             this.Namn = RSSDataBaseHandling.GetName(Url);
-            Listan = RSSDataBaseHandling.GetAvsnitt(Url);
             setTimer();
         }
 
@@ -31,19 +30,7 @@ namespace Main_Form
             setTimer();
         }
 
-        public object Sort(object categori)
-        {
-            Kategori kategori = categori as Kategori;
-
-            if (this.Category == kategori.Category)
-            {
-                return this;
-            }
-            else {
-                return null;
-            }
-
-        }
+        
         public RssList<Avsnitt> getListan() {
             return this.Listan;
         }
@@ -55,16 +42,6 @@ namespace Main_Form
             return Listan;
         }
         
-        
-                
-            
-           
-        
-
-        public Feed Sort(Feed obj)
-        {
-            throw new NotImplementedException();
-        }
 
         public void setTimer()
         {

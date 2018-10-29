@@ -32,6 +32,7 @@ namespace Main_Form
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Task.Run(() => { 
             feedlist = feedlist.Load();
             feedlist.LaggTillEvent();
             feedlist.uppdatera += () => {
@@ -39,6 +40,7 @@ namespace Main_Form
                 feedlist.Save(); 
             };
             Kategorier = Kategorier.Load();
+            });
             Updatelist();
             UpdateKategorier();
             UppdateraKategoriBox();
