@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public interface ISortable<T>
+    interface ISaveAndLoadable<T>
     {
-        T Sort(T obj);
+        void Save();
+        T Load();
     }
 }

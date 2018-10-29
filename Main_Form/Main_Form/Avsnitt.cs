@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Avsnitt : ISortable<Avsnitt>
+    public class Avsnitt 
     {
         public string Namn { get; set; }
         public string Beskrivning { get; set; }

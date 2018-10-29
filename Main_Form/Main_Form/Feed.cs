@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Feed : Kategori, ISortable<Feed>
+    public class Feed : Kategori
     {
         public string Url { get; set; }
         public string Namn { get; set; }

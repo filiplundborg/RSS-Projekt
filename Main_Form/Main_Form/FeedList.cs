@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class FeedList : RssList<Feed>
+    public class FeedList : RssList<Feed>, ISaveAndLoadable<FeedList>
     {
         public delegate void ListChanged();
         public event ListChanged changed;

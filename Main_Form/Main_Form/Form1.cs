@@ -208,6 +208,7 @@ namespace Main_Form
             {
                 int index = lboxKategori.SelectedIndex;
                 Kategorier.RemoveAtIndex(index);
+                
             }
             UpdateKategorier();
             Kategorier.Save();

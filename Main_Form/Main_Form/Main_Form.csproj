@@ -58,7 +58,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ISortable.cs" />
+    <Compile Include="ISaveAndLoadable.cs" />
     <Compile Include="Kategori.cs" />
     <Compile Include="KategoriDatabaseHandling.cs" />
     <Compile Include="KategoriList.cs" />
