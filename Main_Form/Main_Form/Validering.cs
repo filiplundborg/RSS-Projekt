@@ -34,5 +34,20 @@ namespace Main_Form
             }
 
         }
+
+        public static bool CheckRssLink(string url) {
+            string title = RSSDataBaseHandling.GetName(url);
+            if (title != null) {
+                return true;
+            }
+            else
+            {
+                throw new RssReaderException("Kan inte hitta någon data." + "\n" + "Kontrollera den angivna länken.");
+            }
+            
+            
+        }
+
+        
     }
 }
