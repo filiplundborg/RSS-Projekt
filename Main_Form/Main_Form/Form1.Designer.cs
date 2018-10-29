@@ -138,6 +138,7 @@
             this.btnSparaPodcast.TabIndex = 5;
             this.btnSparaPodcast.Text = "Spara";
             this.btnSparaPodcast.UseVisualStyleBackColor = true;
+            this.btnSparaPodcast.Click += new System.EventHandler(this.btnSparaPodcast_Click);
             // 
             // btnTaBortPodcast
             // 
