@@ -13,7 +13,7 @@ namespace Main_Form
         {
             if(toCheck == "")
             {
-                throw new ArgumentException();
+                throw new RssReaderException("Fälten får inte vara tomma");
                
             }
             else
@@ -30,7 +30,7 @@ namespace Main_Form
             }
             else
             {
-                throw new ArgumentException();
+                throw new RssReaderException("Ett alternativ måste väljas");
             }
 
         }

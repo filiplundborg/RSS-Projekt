@@ -129,9 +129,9 @@ namespace Main_Form
                 Updatelist();
 
             }
-            catch (ArgumentException)
+            catch (RssReaderException rss)
             {
-                MessageBox.Show("Samtliga alternativ måste vara ifyllda");
+                MessageBox.Show(rss.UserMessage);
             }
 
         }
@@ -182,12 +182,20 @@ namespace Main_Form
 
         private void btnNyKategori_Click(object sender, EventArgs e)
         {
-            Kategori kategori = new Kategori();
-            kategori.Category = tbNyKategori.Text;
-            Kategorier.Add(kategori);
-            lboxKategori.Items.Add(kategori.Category);
-            Kategorier.Save();
-            UppdateraKategoriBox();
+            try
+            {
+                Validering.IsEmpty(tbNyKategori.Text);
+                Kategori kategori = new Kategori();
+                kategori.Category = tbNyKategori.Text;
+                Kategorier.Add(kategori);
+                lboxKategori.Items.Add(kategori.Category);
+                Kategorier.Save();
+                UppdateraKategoriBox();
+            }
+            catch (RssReaderException rss) {
+                MessageBox.Show(rss.UserMessage);
+            }
+            
 
         }
 
