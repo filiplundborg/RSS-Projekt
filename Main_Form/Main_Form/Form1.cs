@@ -39,9 +39,10 @@ namespace Main_Form
                 UpdateListOtherThread();
                 feedlist.Save(); 
             };
-            Kategorier = Kategorier.Load();
+            
             });
             Updatelist();
+            Kategorier = Kategorier.Load();
             UpdateKategorier();
             UppdateraKategoriBox();
             feedlist.changed += SparaOchLaddaLista;
@@ -55,6 +56,10 @@ namespace Main_Form
                     lvPodcasts.Items.Clear();
                     foreach (var item in feedlist)
                     {
+                        if (item.Listan == null)
+                        {
+                            item.Listan = item.ForceList();
+                        }
                         var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                         lvPodcasts.Items.Add(itemsToAdd);
                     }
@@ -88,6 +93,10 @@ namespace Main_Form
             lvPodcasts.Items.Clear();
             foreach (var item in feedlist)
             {
+                if (item.AntalAvsnitt() == 0) {
+                    item.ForceList();
+                }
+
                 var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                 lvPodcasts.Items.Add(itemsToAdd);
             }
