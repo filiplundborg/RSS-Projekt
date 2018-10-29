@@ -169,6 +169,7 @@
             this.lboxKategori.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lboxKategori.Size = new System.Drawing.Size(451, 344);
             this.lboxKategori.TabIndex = 8;
+            this.lboxKategori.SelectedIndexChanged += new System.EventHandler(this.lboxKategori_SelectedIndexChanged);
             // 
             // btnNyKategori
             // 

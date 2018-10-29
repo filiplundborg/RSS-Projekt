@@ -9,6 +9,7 @@ namespace Main_Form
 {
     public class Feed : Kategori
     {
+        
         public string Url { get; set; }
         public string Namn { get; set; }
         public int UppdateringsInterval { get; set; }
@@ -40,6 +41,12 @@ namespace Main_Form
         public RssList<Avsnitt> ForceList() {
             Listan = RSSDataBaseHandling.GetAvsnitt(Url);
             return Listan;
+        }
+
+        public string ForceNamn()
+        {
+            Namn = RSSDataBaseHandling.GetName(Url);
+            return Namn;
         }
         
 

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +10,7 @@ namespace Main_Form
         private FeedList feedlist;
         private RssList<Avsnitt> EpisodeList;
         private KategoriList Kategorier;
+        
 
         public Form1()
         {
@@ -35,17 +30,17 @@ namespace Main_Form
             Task.Run(() => { 
             feedlist = feedlist.Load();
             feedlist.LaggTillEvent();
-            feedlist.uppdatera += () => {
+                feedlist.changed += SparaOchLaddaLista;
+                feedlist.uppdatera += () => {
                 UpdateListOtherThread();
                 feedlist.Save();
-            };
+                };
             
             });
             Updatelist();
             Kategorier = Kategorier.Load();
             UpdateKategorier();
             UppdateraKategoriBox();
-            feedlist.changed += SparaOchLaddaLista;
         }
 
         public void UpdateListOtherThread() {
@@ -255,15 +250,58 @@ namespace Main_Form
         {
             if (lvPodcasts.SelectedItems.Count > 0) {
                 int index = lvPodcasts.Items.IndexOf(lvPodcasts.SelectedItems[0]);
-                var andradKategori = cboxNyKategori.SelectedItem;
-                var andratIntervall = cboxNyUppdatFrekvens.SelectedItem;
-                feedlist[index].Kategorin. = andradKategori.ToString();
-                feedlist[index].UppdateringsInterval = (int)andratIntervall;
-            }
+                var andradKategori = comboBoxToString(cboxNyKategori);
+                var andratIntervall = comboBoxToString(cboxNyUppdatFrekvens);
+                var nyUrl = tbNyUrl.Text;
 
+                if(andradKategori != "")
+                {
+                    feedlist[index].Category = andradKategori;
+                }
+
+                if(andratIntervall != "")
+                {
+                    feedlist[index].UppdateringsInterval = int.Parse(andratIntervall);
+                }
+
+                if(nyUrl != "")
+                {
+                    try
+                    {
+                        Validering.CheckRssLink(nyUrl);
+                        feedlist[index].Url = nyUrl;
+                        feedlist[index].ForceList();
+                        feedlist[index].ForceNamn();
+                    }
+                    catch(RssReaderException ex) {
+                        MessageBox.Show(ex.UserMessage);
+                    }
+                }
+                
+                
+            }
+            Updatelist();
+            feedlist.Save();
         }
         private string comboBoxToString(ComboBox boxen) {
             return boxen.GetItemText(boxen.SelectedItem);
+        }
+
+        private void lboxKategori_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = lboxKategori.SelectedIndex;
+            if (index != -1)
+            {
+
+                feedlist = feedlist.SortList(Kategorier[index]) as FeedList;
+                feedlist.LaggTillEvent();
+                feedlist.changed += SparaOchLaddaLista;
+                Updatelist();
+            }
+            else
+            {
+                return;
+            }
         }
     }
 

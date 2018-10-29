@@ -35,6 +35,25 @@ namespace Main_Form
         public void UppdatForm() {
             uppdatera();
         }
+
+    
+        public override RssList<Feed> SortList(object obj)
+        {
+            FeedList SortedFeedList = new FeedList();
+            Kategori categori = obj as Kategori;
+            if (categori != null) {
+
+                
+                var List = this.OrderByDescending((item) => item.Category == categori.Category).ToList();
+                foreach (var item in List)
+                {
+                    SortedFeedList.Add(item);
+                }
+                
+            }
+            return SortedFeedList;
+
+        }
     } 
 
 }

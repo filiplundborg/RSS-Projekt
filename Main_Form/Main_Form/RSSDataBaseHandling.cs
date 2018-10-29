@@ -62,6 +62,8 @@ namespace Main_Form
                 
             }
         }
+
+
         public static void Serialize(FeedList feedList) {
             var serializer = new XmlSerializer(typeof (FeedList));
             using (var writer = new StreamWriter(FILEPATH)) {

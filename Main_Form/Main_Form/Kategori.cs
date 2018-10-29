@@ -11,8 +11,5 @@ namespace Main_Form
         public string Category{ get; set; }
         public KategoriList KategoriListan { get; set; }
 
-
-        
-
     }
 }
