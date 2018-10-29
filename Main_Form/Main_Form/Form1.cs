@@ -257,10 +257,13 @@ namespace Main_Form
                 int index = lvPodcasts.Items.IndexOf(lvPodcasts.SelectedItems[0]);
                 var andradKategori = cboxNyKategori.SelectedItem;
                 var andratIntervall = cboxNyUppdatFrekvens.SelectedItem;
-                feedlist[index].feed. = andradKategori.ToString();
+                feedlist[index].Kategorin. = andradKategori.ToString();
                 feedlist[index].UppdateringsInterval = (int)andratIntervall;
             }
 
+        }
+        private string comboBoxToString(ComboBox boxen) {
+            return boxen.GetItemText(boxen.SelectedItem);
         }
     }
 
