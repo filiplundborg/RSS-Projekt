@@ -27,7 +27,7 @@ namespace Main_Form
                 return feed.Title.Text;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("RSS-länken är felaktig!");
                 return null;
@@ -55,7 +55,7 @@ namespace Main_Form
 
                 return listan;
             }
-            catch(Exception Ex)
+            catch(Exception)
             {
                 
                 return null;

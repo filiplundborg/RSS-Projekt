@@ -27,17 +27,16 @@ namespace Main_Form
             cboxNyUppdatFrekvens.Items.Add("10");
             cboxNyUppdatFrekvens.Items.Add("15");
             cboxNyUppdatFrekvens.Items.Add("20");
-
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             feedlist = feedlist.Load();
             feedlist.LaggTillEvent();
-            feedlist.uppdatera += () =>
-            {
+            feedlist.uppdatera += () => {
                 UpdateListOtherThread();
-                feedlist.Save();
+                feedlist.Save(); 
             };
             Kategorier = Kategorier.Load();
             Updatelist();
@@ -46,8 +45,7 @@ namespace Main_Form
             feedlist.changed += SparaOchLaddaLista;
         }
 
-        public void UpdateListOtherThread()
-        {
+        public void UpdateListOtherThread() {
             if (lvPodcasts.InvokeRequired)
             {
                 lvPodcasts.Invoke((MethodInvoker)delegate
@@ -60,31 +58,28 @@ namespace Main_Form
                     }
                 });
             }
-            else
-            {
+            else {
                 lvPodcasts.Items.Clear();
                 foreach (var item in feedlist)
                 {
-                    if (item.Listan == null)
-                    {
+                    if (item.Listan == null) {
                         item.Listan = item.ForceList();
                     }
                     var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                     lvPodcasts.Items.Add(itemsToAdd);
                 }
-
+                
             }
         }
 
-        public void SparaOchLaddaLista()
-        {
+        public void SparaOchLaddaLista() {
             feedlist.Save();
             Updatelist();
             feedlist.changed += () =>
             {
                 SparaOchLaddaLista();
             };
-        }
+            }
 
         public void Updatelist()
         {
@@ -94,7 +89,7 @@ namespace Main_Form
                 var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                 lvPodcasts.Items.Add(itemsToAdd);
             }
-
+          
         }
 
         public void UpdateKategorier()
@@ -104,13 +99,11 @@ namespace Main_Form
             {
                 lboxKategori.Items.Add(kat.Category);
             }
-
+           
         }
-        public void UppdateraKategoriBox()
-        {
+        public void UppdateraKategoriBox() {
             cboxNyKategori.Items.Clear();
-            foreach (var k in Kategorier)
-            {
+            foreach (var k in Kategorier) {
                 cboxNyKategori.Items.Add(k.Category);
             }
 
@@ -130,15 +123,15 @@ namespace Main_Form
                 feed.Category = category;
                 feedlist.Add(feed);
                 feedlist.LaggTillEvent();
-
+                
                 feedlist.Save();
-
+                
                 Updatelist();
 
             }
-            catch (ArgumentException)
+            catch (RssReaderException rss)
             {
-                MessageBox.Show("Samtliga alternativ måste vara ifyllda");
+                MessageBox.Show(rss.UserMessage);
             }
 
         }
@@ -157,23 +150,23 @@ namespace Main_Form
             lboxAvsnitt.Items.Clear();
             Feed feed = feedlist[items];
             EpisodeList = feed.getListan();
-
-            if (EpisodeList != null)
-            {
-                foreach (var item in EpisodeList)
+            
+                if (EpisodeList != null)
                 {
-                    lboxAvsnitt.Items.Add(item.Namn);
+                    foreach (var item in EpisodeList)
+                    {
+                        lboxAvsnitt.Items.Add(item.Namn);
+                    }
                 }
-            }
-            else
-            {
-                return;
-            }
+                else
+                {
+                    return;
+                }
         }
-
-
-
-
+            
+           
+            
+   
 
         private void lboxAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -189,13 +182,20 @@ namespace Main_Form
 
         private void btnNyKategori_Click(object sender, EventArgs e)
         {
-            Kategori kategori = new Kategori();
-            kategori.Category = tbNyKategori.Text;
-            Kategorier.Add(kategori);
-            lboxKategori.Items.Add(kategori.Category);
-            Kategorier.Save();
-            UppdateraKategoriBox();
-            tbNyKategori.Clear();
+            try
+            {
+                Validering.IsEmpty(tbNyKategori.Text);
+                Kategori kategori = new Kategori();
+                kategori.Category = tbNyKategori.Text;
+                Kategorier.Add(kategori);
+                lboxKategori.Items.Add(kategori.Category);
+                Kategorier.Save();
+                UppdateraKategoriBox();
+            }
+            catch (RssReaderException rss) {
+                MessageBox.Show(rss.UserMessage);
+            }
+            
 
         }
 
@@ -212,30 +212,14 @@ namespace Main_Form
 
         private void btnTaBortKategori_Click(object sender, EventArgs e)
         {
-            if (lboxKategori.SelectedItems.Count > 0)
+            if(lboxKategori.SelectedItems.Count > 0)
             {
                 int index = lboxKategori.SelectedIndex;
                 Kategorier.RemoveAtIndex(index);
-
             }
             UpdateKategorier();
             Kategorier.Save();
             Kategorier.Load();
-            UppdateraKategoriBox();
-        }
-
-        private void btnSparaKategori_Click(object sender, EventArgs e)
-        {
-            if (lboxKategori.SelectedItems.Count > 0)
-            {
-                string nyKategori = tbNyKategori.Text;
-                int index = lboxKategori.SelectedIndex;
-                Kategorier[index].Category = nyKategori;
-
-            }
-            Kategorier.Save();
-            Kategorier.Load();
-            UpdateKategorier();
             UppdateraKategoriBox();
         }
     }
