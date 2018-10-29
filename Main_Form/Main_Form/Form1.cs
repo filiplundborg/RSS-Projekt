@@ -27,7 +27,7 @@ namespace Main_Form
             cboxNyUppdatFrekvens.Items.Add("10");
             cboxNyUppdatFrekvens.Items.Add("15");
             cboxNyUppdatFrekvens.Items.Add("20");
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace Main_Form
             feedlist.LaggTillEvent();
             feedlist.uppdatera += () => {
                 UpdateListOtherThread();
-                feedlist.Save(); 
+                feedlist.Save();
             };
             Kategorier = Kategorier.Load();
             Updatelist();
@@ -68,7 +68,7 @@ namespace Main_Form
                     var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                     lvPodcasts.Items.Add(itemsToAdd);
                 }
-                
+
             }
         }
 
@@ -79,7 +79,7 @@ namespace Main_Form
             {
                 SparaOchLaddaLista();
             };
-            }
+        }
 
         public void Updatelist()
         {
@@ -89,7 +89,7 @@ namespace Main_Form
                 var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
                 lvPodcasts.Items.Add(itemsToAdd);
             }
-          
+
         }
 
         public void UpdateKategorier()
@@ -99,7 +99,7 @@ namespace Main_Form
             {
                 lboxKategori.Items.Add(kat.Category);
             }
-           
+
         }
         public void UppdateraKategoriBox() {
             cboxNyKategori.Items.Clear();
@@ -112,7 +112,7 @@ namespace Main_Form
         private void btnNyPod_Click(object sender, EventArgs e)
         {
             try
-            { 
+            {
                 Validering.KollaOmCbTom(cboxNyKategori);
                 Validering.IsEmpty(tbNyUrl.Text);
                 Validering.KollaOmCbTom(cboxNyUppdatFrekvens);
@@ -124,9 +124,9 @@ namespace Main_Form
                 feed.Category = category;
                 feedlist.Add(feed);
                 feedlist.LaggTillEvent();
-                
+
                 feedlist.Save();
-                
+
                 Updatelist();
 
             }
@@ -151,23 +151,23 @@ namespace Main_Form
             lboxAvsnitt.Items.Clear();
             Feed feed = feedlist[items];
             EpisodeList = feed.getListan();
-            
-                if (EpisodeList != null)
+
+            if (EpisodeList != null)
+            {
+                foreach (var item in EpisodeList)
                 {
-                    foreach (var item in EpisodeList)
-                    {
-                        lboxAvsnitt.Items.Add(item.Namn);
-                    }
+                    lboxAvsnitt.Items.Add(item.Namn);
                 }
-                else
-                {
-                    return;
-                }
+            }
+            else
+            {
+                return;
+            }
         }
-            
-           
-            
-   
+
+
+
+
 
         private void lboxAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -196,7 +196,7 @@ namespace Main_Form
             catch (RssReaderException rss) {
                 MessageBox.Show(rss.UserMessage);
             }
-            
+
 
         }
 
@@ -213,11 +213,11 @@ namespace Main_Form
 
         private void btnTaBortKategori_Click(object sender, EventArgs e)
         {
-            if(lboxKategori.SelectedItems.Count > 0)
+            if (lboxKategori.SelectedItems.Count > 0)
             {
                 int index = lboxKategori.SelectedIndex;
                 Kategorier.RemoveAtIndex(index);
-                
+
             }
             UpdateKategorier();
             Kategorier.Save();
@@ -239,6 +239,18 @@ namespace Main_Form
             UpdateKategorier();
             UppdateraKategoriBox();
         }
-    
+
+        private void btnSparaPodcast_Click(object sender, EventArgs e)
+        {
+            if (lvPodcasts.SelectedItems.Count > 0) {
+                int index = lvPodcasts.Items.IndexOf(lvPodcasts.SelectedItems[0]);
+                var andradKategori = cboxNyKategori.SelectedItem;
+                var andratIntervall = cboxNyUppdatFrekvens.SelectedItem;
+                feedlist[index].feed. = andradKategori.ToString();
+                feedlist[index].UppdateringsInterval = (int)andratIntervall;
+            }
+
+        }
     }
+
 }
