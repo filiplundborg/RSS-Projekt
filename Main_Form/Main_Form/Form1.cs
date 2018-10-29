@@ -223,5 +223,21 @@ namespace Main_Form
             Kategorier.Load();
             UppdateraKategoriBox();
         }
+
+        private void btnSparaKategori_Click(object sender, EventArgs e)
+        {
+            if (lboxKategori.SelectedItems.Count > 0)
+            {
+                string nyKategori = tbNyKategori.Text;
+                int index = lboxKategori.SelectedIndex;
+                Kategorier[index].Category = nyKategori;
+
+            }
+            Kategorier.Save();
+            Kategorier.Load();
+            UpdateKategorier();
+            UppdateraKategoriBox();
+        }
+    
     }
 }
