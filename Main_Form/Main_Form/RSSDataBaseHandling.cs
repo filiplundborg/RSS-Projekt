@@ -29,7 +29,7 @@ namespace Main_Form
             }
             catch (Exception)
             {
-                MessageBox.Show("RSS-länken är felaktig!");
+                
                 return null;
 
             }

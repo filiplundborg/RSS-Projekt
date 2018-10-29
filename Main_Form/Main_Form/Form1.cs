@@ -112,10 +112,11 @@ namespace Main_Form
         private void btnNyPod_Click(object sender, EventArgs e)
         {
             try
-            {
+            { 
                 Validering.KollaOmCbTom(cboxNyKategori);
                 Validering.IsEmpty(tbNyUrl.Text);
                 Validering.KollaOmCbTom(cboxNyUppdatFrekvens);
+                Validering.CheckRssLink(tbNyUrl.Text);
                 int frekvens = int.Parse(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
                 string category = cboxNyKategori.GetItemText(cboxNyKategori.SelectedItem);
                 Feed feed = new Feed(tbNyUrl.Text);
