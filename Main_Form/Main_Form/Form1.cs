@@ -112,7 +112,6 @@ namespace Main_Form
                 var ItemsToAdd = new ListViewItem(new[] { item.AmountOfEpisodes().ToString(), item.Name, item.UpdatingInterval.ToString(), item.TheCategory });
                 lvPodcasts.Items.Add(ItemsToAdd);
             }
-
         }
 
         public void UpdateCategories()
@@ -129,7 +128,6 @@ namespace Main_Form
             foreach (var k in Categories) {
                 cboxNyKategori.Items.Add(k.TheCategory);
             }
-
         }
 
         private void btnNyPod_Click(object sender, EventArgs e)
@@ -147,9 +145,7 @@ namespace Main_Form
                 feed.TheCategory = category;
                 FeedList.Add(feed);
                 FeedList.AddTimerEvent();
-
                 FeedListActions();
-
             }
             catch (RssReaderException rss)
             {
@@ -172,7 +168,6 @@ namespace Main_Form
             lboxAvsnitt.Items.Clear();
             Feed feed = FeedList[items];
             EpisodeList = feed.GetTheList();
-
             if (EpisodeList != null)
             {
                 foreach (var item in EpisodeList)
@@ -185,11 +180,7 @@ namespace Main_Form
                 return;
             }
         }
-
-
-
-
-
+        
         private void lboxAvsnitt_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = lboxAvsnitt.SelectedIndex;
@@ -282,8 +273,6 @@ namespace Main_Form
                         MessageBox.Show(ex.UserMessage);
                     }
                 }
-                
-                
             }
             FeedListActions();
         }
