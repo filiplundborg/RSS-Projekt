@@ -23,9 +23,9 @@ namespace Main_Form
         private async Task LoadListAsync() {
             await Task.Run(() => {
                 FeedList = FeedList.Load();
-                FeedList.LaggTillEvent();
-                FeedList.changed += SaveAndLoadList;
-                FeedList.uppdatera += () => {
+                FeedList.AddTimerEvent();
+                FeedList.ListChanged += SaveAndLoadList;
+                FeedList.TimerElapsed += () => {
                     UpdateListOtherThread();
                 };
 
@@ -81,7 +81,7 @@ namespace Main_Form
         public void SaveAndLoadList() {
             FeedList.Save();
             Updatelist();
-            FeedList.changed += () =>
+            FeedList.ListChanged += () =>
             {
                 SaveAndLoadList();
             };
@@ -133,7 +133,7 @@ namespace Main_Form
                 feed.UpdatingInterval = Frequency;
                 feed.TheCategory = category;
                 FeedList.Add(feed);
-                FeedList.LaggTillEvent();
+                FeedList.AddTimerEvent();
 
                 FeedList.Save();
 
@@ -297,8 +297,8 @@ namespace Main_Form
             if (index != -1)
             {
                 FeedList = FeedList.SortList(Categories[index]) as FeedList;
-                FeedList.LaggTillEvent();
-                FeedList.changed += SaveAndLoadList;
+                FeedList.AddTimerEvent();
+                FeedList.ListChanged += SaveAndLoadList;
                 Updatelist();
             }
             else

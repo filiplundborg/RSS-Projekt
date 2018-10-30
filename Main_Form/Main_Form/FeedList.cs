@@ -8,10 +8,11 @@ namespace Main_Form
 {
     public class FeedList : RssList<Feed>, ISaveAndLoadable<FeedList>
     {
-        public delegate void ListChanged();
-        public event ListChanged changed;
-        public delegate void InitialiseraUppdatering();
-        public event InitialiseraUppdatering uppdatera;
+        public delegate void ListChangedHandler();
+        public event ListChangedHandler ListChanged;
+
+        public delegate void InitializeUpdateHandler();
+        public event InitializeUpdateHandler TimerElapsed;
 
         public void Save() {
             RSSDataBaseHandling.Serialize(this);
@@ -22,29 +23,29 @@ namespace Main_Form
 
         public void RemoveAtIndex(int index) {
             this.RemoveAt(index);
-            changed();
+            ListChanged();
         }
-        public void LaggTillEvent() {
-            foreach (var v in this) {
-                v.FeedChanged += () =>
+        public void AddTimerEvent() {
+            foreach (var feed in this) {
+                feed.FeedChanged += () =>
                 {
-                    UppdatForm();
+                    UpdateForm();
                 };
             } 
         }
-        public void UppdatForm() {
-            uppdatera();
+        public void UpdateForm() {
+            TimerElapsed();
         }
 
     
         public override RssList<Feed> SortList(object obj)
         {
             FeedList SortedFeedList = new FeedList();
-            Category categori = obj as Category;
-            if (categori != null) {
+            Category category = obj as Category;
+            if (category != null) {
 
                 
-                var List = this.OrderByDescending((item) => item.TheCategory == categori.TheCategory).ToList();
+                var List = this.OrderByDescending((item) => item.TheCategory == category.TheCategory).ToList();
                 foreach (var item in List)
                 {
                     SortedFeedList.Add(item);
