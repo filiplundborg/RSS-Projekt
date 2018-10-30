@@ -55,11 +55,11 @@ namespace Main_Form
                     lvPodcasts.Items.Clear();
                     foreach (var item in FeedList)
                     {
-                        if (item.Listan == null)
+                        if (item.TheList == null)
                         {
-                            item.Listan = item.ForceList();
+                            item.TheList = item.ForceList();
                         }
-                        var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
+                        var itemsToAdd = new ListViewItem(new[] { item.AmountOfEpisodes().ToString(), item.Name, item.UpdatingInterval.ToString(), item.TheCategory });
                         lvPodcasts.Items.Add(itemsToAdd);
                     }
                 });
@@ -68,10 +68,10 @@ namespace Main_Form
                 lvPodcasts.Items.Clear();
                 foreach (var item in FeedList)
                 {
-                    if (item.Listan == null) {
-                        item.Listan = item.ForceList();
+                    if (item.TheList == null) {
+                        item.TheList = item.ForceList();
                     }
-                    var itemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
+                    var itemsToAdd = new ListViewItem(new[] { item.AmountOfEpisodes().ToString(), item.Name, item.UpdatingInterval.ToString(), item.TheCategory });
                     lvPodcasts.Items.Add(itemsToAdd);
                 }
 
@@ -92,11 +92,11 @@ namespace Main_Form
             lvPodcasts.Items.Clear();
             foreach (var item in FeedList)
             {
-                if (item.AntalAvsnitt() == 0) {
+                if (item.AmountOfEpisodes() == 0) {
                     item.ForceList();
                 }
 
-                var ItemsToAdd = new ListViewItem(new[] { item.AntalAvsnitt().ToString(), item.Namn, item.UppdateringsInterval.ToString(), item.Category });
+                var ItemsToAdd = new ListViewItem(new[] { item.AmountOfEpisodes().ToString(), item.Name, item.UpdatingInterval.ToString(), item.TheCategory });
                 lvPodcasts.Items.Add(ItemsToAdd);
             }
 
@@ -107,14 +107,14 @@ namespace Main_Form
             lboxKategori.Items.Clear();
             foreach (var kat in Categories)
             {
-                lboxKategori.Items.Add(kat.Category);
+                lboxKategori.Items.Add(kat.TheCategory);
             }
 
         }
         public void UpdateCategoryBox() {
             cboxNyKategori.Items.Clear();
             foreach (var k in Categories) {
-                cboxNyKategori.Items.Add(k.Category);
+                cboxNyKategori.Items.Add(k.TheCategory);
             }
 
         }
@@ -130,8 +130,8 @@ namespace Main_Form
                 int Frequency = int.Parse(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
                 string category = cboxNyKategori.GetItemText(cboxNyKategori.SelectedItem);
                 Feed feed = new Feed(tbNyUrl.Text);
-                feed.UppdateringsInterval = Frequency;
-                feed.Category = category;
+                feed.UpdatingInterval = Frequency;
+                feed.TheCategory = category;
                 FeedList.Add(feed);
                 FeedList.LaggTillEvent();
 
@@ -160,13 +160,13 @@ namespace Main_Form
         {
             lboxAvsnitt.Items.Clear();
             Feed feed = FeedList[items];
-            EpisodeList = feed.getListan();
+            EpisodeList = feed.GetTheList();
 
             if (EpisodeList != null)
             {
                 foreach (var item in EpisodeList)
                 {
-                    lboxAvsnitt.Items.Add(item.Namn);
+                    lboxAvsnitt.Items.Add(item.Name);
                 }
             }
             else
@@ -188,7 +188,7 @@ namespace Main_Form
         public void GetDescription(int index)
         {
             Episode avsnitt = EpisodeList[index];
-            rtbBeskrivningAvsnitt.Text = avsnitt.Beskrivning.Replace("<p>", "").Replace("</p>", "");
+            rtbBeskrivningAvsnitt.Text = avsnitt.Description.Replace("<p>", "").Replace("</p>", "");
         }
 
         private void btnNyKategori_Click(object sender, EventArgs e)
@@ -196,10 +196,10 @@ namespace Main_Form
             try
             {
                 Validering.IsEmpty(tbNyKategori.Text);
-                Kategori kategori = new Kategori();
-                kategori.Category = tbNyKategori.Text;
+                Category kategori = new Category();
+                kategori.TheCategory = tbNyKategori.Text;
                 Categories.Add(kategori);
-                lboxKategori.Items.Add(kategori.Category);
+                lboxKategori.Items.Add(kategori.TheCategory);
                 Categories.Save();
                 UpdateCategoryBox();
             }
@@ -241,7 +241,7 @@ namespace Main_Form
             {
                 string NewCategory = tbNyKategori.Text;
                 int index = lboxKategori.SelectedIndex;
-                Categories[index].Category = NewCategory;
+                Categories[index].TheCategory = NewCategory;
 
             }
             Categories.Save();
@@ -260,12 +260,12 @@ namespace Main_Form
 
                 if(ChangedCategory != "")
                 {
-                    FeedList[index].Category = ChangedCategory;
+                    FeedList[index].TheCategory = ChangedCategory;
                 }
 
                 if(ChangedInterval != "")
                 {
-                    FeedList[index].UppdateringsInterval = int.Parse(ChangedInterval);
+                    FeedList[index].UpdatingInterval = int.Parse(ChangedInterval);
                 }
 
                 if(NewUrl != "")
@@ -275,7 +275,7 @@ namespace Main_Form
                         Validering.CheckRssLink(NewUrl);
                         FeedList[index].Url = NewUrl;
                         FeedList[index].ForceList();
-                        FeedList[index].ForceNamn();
+                        FeedList[index].ForceName();
                     }
                     catch(RssReaderException ex) {
                         MessageBox.Show(ex.UserMessage);

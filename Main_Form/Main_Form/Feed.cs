@@ -7,58 +7,58 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Feed : Kategori
+    public class Feed : Category
     {
         
         public string Url { get; set; }
-        public string Namn { get; set; }
-        public int UppdateringsInterval { get; set; }
-        public Kategori Kategorin { get; set; }
-        public RssList<Episode> Listan { get; set; }
-        public delegate void UppdateringsHanterare();
-        public event UppdateringsHanterare andrad;
+        public string Name { get; set; }
+        public int UpdatingInterval { get; set; }
+        public Category Category { get; set; }
+        public RssList<Episode> TheList { get; set; }
+        public delegate void UpdateHandler();
+        public event UpdateHandler FeedChanged;
 
 
         public Feed(string url) {
 
-            this.Listan = new RssList<Episode>();
+            this.TheList = new RssList<Episode>();
             this.Url = url;
-            this.Namn = RSSDataBaseHandling.GetName(Url);
-            setTimer();
+            this.Name = RSSDataBaseHandling.GetName(Url);
+            SetTimer();
         }
 
         public Feed() {
-            setTimer();
+            SetTimer();
         }
 
         
-        public RssList<Episode> getListan() {
-            return this.Listan;
+        public RssList<Episode> GetTheList() {
+            return this.TheList;
         }
 
-        public int AntalAvsnitt() => Listan != null ? Listan.Count : 0;
+        public int AmountOfEpisodes() => TheList != null ? TheList.Count : 0;
 
         public RssList<Episode> ForceList() {
-            Listan = RSSDataBaseHandling.GetAvsnitt(Url);
-            return Listan;
+            TheList = RSSDataBaseHandling.GetAvsnitt(Url);
+            return TheList;
         }
 
-        public string ForceNamn()
+        public string ForceName()
         {
-            Namn = RSSDataBaseHandling.GetName(Url);
-            return Namn;
+            Name = RSSDataBaseHandling.GetName(Url);
+            return Name;
         }
         
 
-        public void setTimer()
+        public void SetTimer()
         {
             Task.Run(async () =>
             {
                 while (true)
                 {
-                    Listan = RSSDataBaseHandling.GetAvsnitt(Url);
-                    andrad();
-                    await Task.Delay(UppdateringsInterval*60000);
+                    TheList = RSSDataBaseHandling.GetAvsnitt(Url);
+                    FeedChanged();
+                    await Task.Delay(UpdatingInterval*60000);
                 }
             });
         }

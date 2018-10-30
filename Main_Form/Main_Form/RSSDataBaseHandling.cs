@@ -47,8 +47,8 @@ namespace Main_Form
                 foreach (var items in feed.Items)
                 {
                     Episode avsnitt = new Episode();
-                    avsnitt.Namn = items.Title.Text;
-                    avsnitt.Beskrivning = items.Summary.Text.Replace("<p>", "").Replace("</p>", "");
+                    avsnitt.Name = items.Title.Text;
+                    avsnitt.Description = items.Summary.Text.Replace("<p>", "").Replace("</p>", "");
 
                     listan.Add(avsnitt);
                 }

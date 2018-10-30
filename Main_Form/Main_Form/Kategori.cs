@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Kategori 
+    public class Category 
     {
-        public string Category{ get; set; }
-        public CategoryList KategoriListan { get; set; }
+        public string TheCategory{ get; set; }
+        public CategoryList CategoryList { get; set; }
 
     }
 }

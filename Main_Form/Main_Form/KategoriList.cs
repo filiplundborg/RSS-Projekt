@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class CategoryList : List<Kategori>, ISaveAndLoadable<CategoryList>
+    public class CategoryList : List<Category>, ISaveAndLoadable<CategoryList>
     {
         public void Save()
         {

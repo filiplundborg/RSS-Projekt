@@ -26,7 +26,7 @@ namespace Main_Form
         }
         public void LaggTillEvent() {
             foreach (var v in this) {
-                v.andrad += () =>
+                v.FeedChanged += () =>
                 {
                     UppdatForm();
                 };
@@ -40,11 +40,11 @@ namespace Main_Form
         public override RssList<Feed> SortList(object obj)
         {
             FeedList SortedFeedList = new FeedList();
-            Kategori categori = obj as Kategori;
+            Category categori = obj as Category;
             if (categori != null) {
 
                 
-                var List = this.OrderByDescending((item) => item.Category == categori.Category).ToList();
+                var List = this.OrderByDescending((item) => item.TheCategory == categori.TheCategory).ToList();
                 foreach (var item in List)
                 {
                     SortedFeedList.Add(item);

@@ -8,8 +8,8 @@ namespace Main_Form
 {
     public class Episode 
     {
-        public string Namn { get; set; }
-        public string Beskrivning { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
         public Episode Sort(Episode obj)
         {
