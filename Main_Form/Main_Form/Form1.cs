@@ -35,11 +35,21 @@ namespace Main_Form
         private void Form1_Load(object sender, EventArgs e)
         {
             Task.Run(LoadListAsync);
+            CategoryActionsLoad();
+        }
 
+        private void CategoryActionsLoad() {
             Categories = Categories.Load();
             UpdateCategories();
             UpdateCategoryBox();
         }
+        private void CategoryActionsSave()
+        {
+            Categories.Save();
+            UpdateCategories();
+            UpdateCategoryBox();
+        }
+
         private void FillFrequencies() {
             cboxNyUppdatFrekvens.Items.Add("5");
             cboxNyUppdatFrekvens.Items.Add("10");
@@ -200,16 +210,12 @@ namespace Main_Form
                 kategori.TheCategory = tbNyKategori.Text;
                 Categories.Add(kategori);
                 lboxKategori.Items.Add(kategori.TheCategory);
-                Categories.Save();
-                UpdateCategoryBox();
+                CategoryActionsSave();
             }
             catch (RssReaderException rss) {
                 MessageBox.Show(rss.UserMessage);
             }
-
-
         }
-
 
         private void btnTaBortPodcast_Click(object sender, EventArgs e)
         {
@@ -229,10 +235,7 @@ namespace Main_Form
                 Categories.RemoveAtIndex(index);
 
             }
-            UpdateCategories();
-            Categories.Save();
-            Categories.Load();
-            UpdateCategoryBox();
+            CategoryActionsSave();
         }
 
         private void btnSparaKategori_Click(object sender, EventArgs e)
@@ -244,10 +247,7 @@ namespace Main_Form
                 Categories[index].TheCategory = NewCategory;
 
             }
-            Categories.Save();
-            Categories.Load();
-            UpdateCategories();
-            UpdateCategoryBox();
+            CategoryActionsSave();
         }
 
         private void btnSparaPodcast_Click(object sender, EventArgs e)
