@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Main_Form
 {
-    public static class KategoriDatabaseHandling
+    public static class CategoryDatabaseHandling
     {
         private const string PATH = "kategorier.xml";
 
-        public static void Serialize(CategoryList kategoriList)
+        public static void Serialize(CategoryList CategoryList)
         {
-            var serializer = new XmlSerializer(typeof(CategoryList));
-            using (var writer = new StreamWriter(PATH))
+            var Serializer = new XmlSerializer(typeof(CategoryList));
+            using (var Writer = new StreamWriter(PATH))
             {
-                serializer.Serialize(writer, kategoriList);
+                Serializer.Serialize(Writer, CategoryList);
             }
         }
 
         public static CategoryList Deserialize()
         {
-            CategoryList kategoriList = new CategoryList();
+            CategoryList CategoryList = new CategoryList();
             if (File.Exists(PATH))
             {
-                var serializer = new XmlSerializer(typeof(CategoryList));
-                using (var reader = new StreamReader(PATH))
+                var Serializer = new XmlSerializer(typeof(CategoryList));
+                using (var Reader = new StreamReader(PATH))
                 {
-                    kategoriList = serializer.Deserialize(reader) as CategoryList;
+                    CategoryList = Serializer.Deserialize(Reader) as CategoryList;
                 }
             }
-            return kategoriList;
+            return CategoryList;
         }
 
     }

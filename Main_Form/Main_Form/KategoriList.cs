@@ -10,12 +10,12 @@ namespace Main_Form
     {
         public void Save()
         {
-            KategoriDatabaseHandling.Serialize(this);
+            CategoryDatabaseHandling.Serialize(this);
         }
 
         public CategoryList Load()
         {
-           return KategoriDatabaseHandling.Deserialize();
+           return CategoryDatabaseHandling.Deserialize();
         }
         public void RemoveAtIndex(int index)
         {
