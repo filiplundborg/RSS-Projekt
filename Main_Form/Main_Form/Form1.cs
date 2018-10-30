@@ -65,10 +65,7 @@ namespace Main_Form
                     lvPodcasts.Items.Clear();
                     foreach (var item in FeedList)
                     {
-                        if (item.TheList == null)
-                        {
-                            item.TheList = item.ForceList();
-                        }
+                        ForceEpisodeList(item);
                         var itemsToAdd = new ListViewItem(new[] { item.AmountOfEpisodes().ToString(), item.Name, item.UpdatingInterval.ToString(), item.TheCategory });
                         lvPodcasts.Items.Add(itemsToAdd);
                     }
@@ -78,13 +75,17 @@ namespace Main_Form
                 lvPodcasts.Items.Clear();
                 foreach (var item in FeedList)
                 {
-                    if (item.TheList == null) {
-                        item.TheList = item.ForceList();
-                    }
+                    ForceEpisodeList(item);
                     var itemsToAdd = new ListViewItem(new[] { item.AmountOfEpisodes().ToString(), item.Name, item.UpdatingInterval.ToString(), item.TheCategory });
                     lvPodcasts.Items.Add(itemsToAdd);
                 }
 
+            }
+        }
+        private void ForceEpisodeList(Feed item) {
+            if (item.TheList == null || item.AmountOfEpisodes() == 0)
+            {
+                item.TheList = item.ForceList();
             }
         }
 
@@ -102,10 +103,7 @@ namespace Main_Form
             lvPodcasts.Items.Clear();
             foreach (var item in FeedList)
             {
-                if (item.AmountOfEpisodes() == 0) {
-                    item.ForceList();
-                }
-
+                ForceEpisodeList(item);
                 var ItemsToAdd = new ListViewItem(new[] { item.AmountOfEpisodes().ToString(), item.Name, item.UpdatingInterval.ToString(), item.TheCategory });
                 lvPodcasts.Items.Add(ItemsToAdd);
             }
