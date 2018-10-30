@@ -35,18 +35,18 @@ namespace Main_Form
             }
         }
 
-        public static RssList<Avsnitt> GetAvsnitt(string path)
+        public static RssList<Episode> GetAvsnitt(string path)
         {
             try
             {
                 string url = path;
                 var reader = XmlReader.Create(url);
                 var feed = SyndicationFeed.Load(reader);
-                RssList<Avsnitt> listan = new RssList<Avsnitt>();
+                RssList<Episode> listan = new RssList<Episode>();
 
                 foreach (var items in feed.Items)
                 {
-                    Avsnitt avsnitt = new Avsnitt();
+                    Episode avsnitt = new Episode();
                     avsnitt.Namn = items.Title.Text;
                     avsnitt.Beskrivning = items.Summary.Text.Replace("<p>", "").Replace("</p>", "");
 

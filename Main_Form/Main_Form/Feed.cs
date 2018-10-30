@@ -14,14 +14,14 @@ namespace Main_Form
         public string Namn { get; set; }
         public int UppdateringsInterval { get; set; }
         public Kategori Kategorin { get; set; }
-        public RssList<Avsnitt> Listan { get; set; }
+        public RssList<Episode> Listan { get; set; }
         public delegate void UppdateringsHanterare();
         public event UppdateringsHanterare andrad;
 
 
         public Feed(string url) {
 
-            this.Listan = new RssList<Avsnitt>();
+            this.Listan = new RssList<Episode>();
             this.Url = url;
             this.Namn = RSSDataBaseHandling.GetName(Url);
             setTimer();
@@ -32,13 +32,13 @@ namespace Main_Form
         }
 
         
-        public RssList<Avsnitt> getListan() {
+        public RssList<Episode> getListan() {
             return this.Listan;
         }
 
         public int AntalAvsnitt() => Listan != null ? Listan.Count : 0;
 
-        public RssList<Avsnitt> ForceList() {
+        public RssList<Episode> ForceList() {
             Listan = RSSDataBaseHandling.GetAvsnitt(Url);
             return Listan;
         }

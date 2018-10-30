@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class KategoriList : List<Kategori>, ISaveAndLoadable<KategoriList>
+    public class CategoryList : List<Kategori>, ISaveAndLoadable<CategoryList>
     {
         public void Save()
         {
             KategoriDatabaseHandling.Serialize(this);
         }
 
-        public KategoriList Load()
+        public CategoryList Load()
         {
            return KategoriDatabaseHandling.Deserialize();
         }

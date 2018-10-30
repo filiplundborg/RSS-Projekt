@@ -12,24 +12,24 @@ namespace Main_Form
     {
         private const string PATH = "kategorier.xml";
 
-        public static void Serialize(KategoriList kategoriList)
+        public static void Serialize(CategoryList kategoriList)
         {
-            var serializer = new XmlSerializer(typeof(KategoriList));
+            var serializer = new XmlSerializer(typeof(CategoryList));
             using (var writer = new StreamWriter(PATH))
             {
                 serializer.Serialize(writer, kategoriList);
             }
         }
 
-        public static KategoriList Deserialize()
+        public static CategoryList Deserialize()
         {
-            KategoriList kategoriList = new KategoriList();
+            CategoryList kategoriList = new CategoryList();
             if (File.Exists(PATH))
             {
-                var serializer = new XmlSerializer(typeof(KategoriList));
+                var serializer = new XmlSerializer(typeof(CategoryList));
                 using (var reader = new StreamReader(PATH))
                 {
-                    kategoriList = serializer.Deserialize(reader) as KategoriList;
+                    kategoriList = serializer.Deserialize(reader) as CategoryList;
                 }
             }
             return kategoriList;

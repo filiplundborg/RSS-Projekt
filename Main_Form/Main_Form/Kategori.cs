@@ -9,7 +9,7 @@ namespace Main_Form
     public class Kategori 
     {
         public string Category{ get; set; }
-        public KategoriList KategoriListan { get; set; }
+        public CategoryList KategoriListan { get; set; }
 
     }
 }

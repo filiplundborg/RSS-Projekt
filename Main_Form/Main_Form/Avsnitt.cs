@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Main_Form
 {
-    public class Avsnitt 
+    public class Episode 
     {
         public string Namn { get; set; }
         public string Beskrivning { get; set; }
 
-        public Avsnitt Sort(Avsnitt obj)
+        public Episode Sort(Episode obj)
         {
             throw new NotImplementedException();
         }

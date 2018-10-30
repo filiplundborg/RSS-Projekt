@@ -7,39 +7,44 @@ namespace Main_Form
     public partial class Form1 : Form
     {
 
-        private FeedList feedlist;
-        private RssList<Avsnitt> EpisodeList;
-        private KategoriList Kategorier;
+        private FeedList FeedList;
+        private RssList<Episode> EpisodeList;
+        private CategoryList Categories;
         
 
         public Form1()
         {
             InitializeComponent();
-            feedlist = new FeedList();
-            EpisodeList = new RssList<Avsnitt>();
-            Kategorier = new KategoriList();
-            cboxNyUppdatFrekvens.Items.Add("5");
-            cboxNyUppdatFrekvens.Items.Add("10");
-            cboxNyUppdatFrekvens.Items.Add("15");
-            cboxNyUppdatFrekvens.Items.Add("20");
+            FeedList = new FeedList();
+            EpisodeList = new RssList<Episode>();
+            Categories = new CategoryList();
+            FillFrequencies();
+        }
+        private async Task LoadListAsync() {
+            await Task.Run(() => {
+                FeedList = FeedList.Load();
+                FeedList.LaggTillEvent();
+                FeedList.changed += SparaOchLaddaLista;
+                FeedList.uppdatera += () => {
+                    UpdateListOtherThread();
+                };
 
+            });
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Task.Run(() => { 
-            feedlist = feedlist.Load();
-            feedlist.LaggTillEvent();
-                feedlist.changed += SparaOchLaddaLista;
-                feedlist.uppdatera += () => {
-                UpdateListOtherThread();
-                };
-            
-            });
-            Updatelist();
-            Kategorier = Kategorier.Load();
+            Task.Run(LoadListAsync);
+
+            Categories = Categories.Load();
             UpdateKategorier();
             UppdateraKategoriBox();
+        }
+        private void FillFrequencies() {
+            cboxNyUppdatFrekvens.Items.Add("5");
+            cboxNyUppdatFrekvens.Items.Add("10");
+            cboxNyUppdatFrekvens.Items.Add("15");
+            cboxNyUppdatFrekvens.Items.Add("20");
         }
 
         public void UpdateListOtherThread() {
@@ -48,7 +53,7 @@ namespace Main_Form
                 lvPodcasts.Invoke((MethodInvoker)delegate
                 {
                     lvPodcasts.Items.Clear();
-                    foreach (var item in feedlist)
+                    foreach (var item in FeedList)
                     {
                         if (item.Listan == null)
                         {
@@ -61,7 +66,7 @@ namespace Main_Form
             }
             else {
                 lvPodcasts.Items.Clear();
-                foreach (var item in feedlist)
+                foreach (var item in FeedList)
                 {
                     if (item.Listan == null) {
                         item.Listan = item.ForceList();
@@ -74,9 +79,9 @@ namespace Main_Form
         }
 
         public void SparaOchLaddaLista() {
-            feedlist.Save();
+            FeedList.Save();
             Updatelist();
-            feedlist.changed += () =>
+            FeedList.changed += () =>
             {
                 SparaOchLaddaLista();
             };
@@ -85,7 +90,7 @@ namespace Main_Form
         public void Updatelist()
         {
             lvPodcasts.Items.Clear();
-            foreach (var item in feedlist)
+            foreach (var item in FeedList)
             {
                 if (item.AntalAvsnitt() == 0) {
                     item.ForceList();
@@ -100,7 +105,7 @@ namespace Main_Form
         public void UpdateKategorier()
         {
             lboxKategori.Items.Clear();
-            foreach (var kat in Kategorier)
+            foreach (var kat in Categories)
             {
                 lboxKategori.Items.Add(kat.Category);
             }
@@ -108,7 +113,7 @@ namespace Main_Form
         }
         public void UppdateraKategoriBox() {
             cboxNyKategori.Items.Clear();
-            foreach (var k in Kategorier) {
+            foreach (var k in Categories) {
                 cboxNyKategori.Items.Add(k.Category);
             }
 
@@ -127,10 +132,10 @@ namespace Main_Form
                 Feed feed = new Feed(tbNyUrl.Text);
                 feed.UppdateringsInterval = frekvens;
                 feed.Category = category;
-                feedlist.Add(feed);
-                feedlist.LaggTillEvent();
+                FeedList.Add(feed);
+                FeedList.LaggTillEvent();
 
-                feedlist.Save();
+                FeedList.Save();
 
                 Updatelist();
 
@@ -154,7 +159,7 @@ namespace Main_Form
         private void FillEpisodeList(int items)
         {
             lboxAvsnitt.Items.Clear();
-            Feed feed = feedlist[items];
+            Feed feed = FeedList[items];
             EpisodeList = feed.getListan();
 
             if (EpisodeList != null)
@@ -182,7 +187,7 @@ namespace Main_Form
 
         public void GetDescription(int index)
         {
-            Avsnitt avsnitt = EpisodeList[index];
+            Episode avsnitt = EpisodeList[index];
             rtbBeskrivningAvsnitt.Text = avsnitt.Beskrivning.Replace("<p>", "").Replace("</p>", "");
         }
 
@@ -193,9 +198,9 @@ namespace Main_Form
                 Validering.IsEmpty(tbNyKategori.Text);
                 Kategori kategori = new Kategori();
                 kategori.Category = tbNyKategori.Text;
-                Kategorier.Add(kategori);
+                Categories.Add(kategori);
                 lboxKategori.Items.Add(kategori.Category);
-                Kategorier.Save();
+                Categories.Save();
                 UppdateraKategoriBox();
             }
             catch (RssReaderException rss) {
@@ -211,7 +216,7 @@ namespace Main_Form
             if (lvPodcasts.SelectedItems.Count > 0)
             {
                 int items = lvPodcasts.Items.IndexOf(lvPodcasts.SelectedItems[0]);
-                feedlist.RemoveAtIndex(items);
+                FeedList.RemoveAtIndex(items);
 
             }
         }
@@ -221,12 +226,12 @@ namespace Main_Form
             if (lboxKategori.SelectedItems.Count > 0)
             {
                 int index = lboxKategori.SelectedIndex;
-                Kategorier.RemoveAtIndex(index);
+                Categories.RemoveAtIndex(index);
 
             }
             UpdateKategorier();
-            Kategorier.Save();
-            Kategorier.Load();
+            Categories.Save();
+            Categories.Load();
             UppdateraKategoriBox();
         }
 
@@ -236,11 +241,11 @@ namespace Main_Form
             {
                 string nyKategori = tbNyKategori.Text;
                 int index = lboxKategori.SelectedIndex;
-                Kategorier[index].Category = nyKategori;
+                Categories[index].Category = nyKategori;
 
             }
-            Kategorier.Save();
-            Kategorier.Load();
+            Categories.Save();
+            Categories.Load();
             UpdateKategorier();
             UppdateraKategoriBox();
         }
@@ -255,12 +260,12 @@ namespace Main_Form
 
                 if(andradKategori != "")
                 {
-                    feedlist[index].Category = andradKategori;
+                    FeedList[index].Category = andradKategori;
                 }
 
                 if(andratIntervall != "")
                 {
-                    feedlist[index].UppdateringsInterval = int.Parse(andratIntervall);
+                    FeedList[index].UppdateringsInterval = int.Parse(andratIntervall);
                 }
 
                 if(nyUrl != "")
@@ -268,9 +273,9 @@ namespace Main_Form
                     try
                     {
                         Validering.CheckRssLink(nyUrl);
-                        feedlist[index].Url = nyUrl;
-                        feedlist[index].ForceList();
-                        feedlist[index].ForceNamn();
+                        FeedList[index].Url = nyUrl;
+                        FeedList[index].ForceList();
+                        FeedList[index].ForceNamn();
                     }
                     catch(RssReaderException ex) {
                         MessageBox.Show(ex.UserMessage);
@@ -280,7 +285,7 @@ namespace Main_Form
                 
             }
             Updatelist();
-            feedlist.Save();
+            FeedList.Save();
         }
         private string comboBoxToString(ComboBox boxen) {
             return boxen.GetItemText(boxen.SelectedItem);
@@ -291,10 +296,9 @@ namespace Main_Form
             int index = lboxKategori.SelectedIndex;
             if (index != -1)
             {
-
-                feedlist = feedlist.SortList(Kategorier[index]) as FeedList;
-                feedlist.LaggTillEvent();
-                feedlist.changed += SparaOchLaddaLista;
+                FeedList = FeedList.SortList(Categories[index]) as FeedList;
+                FeedList.LaggTillEvent();
+                FeedList.changed += SparaOchLaddaLista;
                 Updatelist();
             }
             else
