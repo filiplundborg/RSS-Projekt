@@ -90,12 +90,17 @@ namespace Main_Form
         }
 
         public void SaveAndLoadList() {
-            FeedList.Save();
-            Updatelist();
+            FeedListActions();
             FeedList.ListChanged += () =>
             {
                 SaveAndLoadList();
             };
+        }
+
+        private void FeedListActions()
+        {
+            FeedList.Save();
+            Updatelist();
         }
 
         public void Updatelist()
@@ -143,9 +148,7 @@ namespace Main_Form
                 FeedList.Add(feed);
                 FeedList.AddTimerEvent();
 
-                FeedList.Save();
-
-                Updatelist();
+                FeedListActions();
 
             }
             catch (RssReaderException rss)
@@ -282,8 +285,7 @@ namespace Main_Form
                 
                 
             }
-            Updatelist();
-            FeedList.Save();
+            FeedListActions();
         }
         private string ComboBoxToString(ComboBox boxen) {
             return boxen.GetItemText(boxen.SelectedItem);
