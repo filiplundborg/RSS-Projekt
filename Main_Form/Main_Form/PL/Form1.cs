@@ -158,6 +158,7 @@ namespace Main_Form
         {
             if (lvPodcasts.SelectedItems.Count > 0)
             {
+                rtbBeskrivningAvsnitt.Text = "";
                 int items = lvPodcasts.Items.IndexOf(lvPodcasts.SelectedItems[0]);
                 FillEpisodeList(items);
             }
@@ -213,6 +214,8 @@ namespace Main_Form
         {
             if (lvPodcasts.SelectedItems.Count > 0)
             {
+                lboxAvsnitt.Items.Clear();
+                rtbBeskrivningAvsnitt.Text = "";
                 int items = lvPodcasts.Items.IndexOf(lvPodcasts.SelectedItems[0]);
                 FeedList.RemoveAtIndex(items);
 
