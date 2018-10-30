@@ -33,7 +33,6 @@ namespace Main_Form
                 feedlist.changed += SparaOchLaddaLista;
                 feedlist.uppdatera += () => {
                 UpdateListOtherThread();
-                feedlist.Save();
                 };
             
             });
