@@ -123,10 +123,10 @@ namespace Main_Form
         {
             try
             {
-                Validering.KollaOmCbTom(cboxNyKategori);
-                Validering.IsEmpty(tbNyUrl.Text);
-                Validering.KollaOmCbTom(cboxNyUppdatFrekvens);
-                Validering.CheckRssLink(tbNyUrl.Text);
+                Main_Form.Validate.CheckIfCbEmpty(cboxNyKategori);
+                Main_Form.Validate.IsEmpty(tbNyUrl.Text);
+                Main_Form.Validate.CheckIfCbEmpty(cboxNyUppdatFrekvens);
+                Main_Form.Validate.CheckRssLink(tbNyUrl.Text);
                 int Frequency = int.Parse(cboxNyUppdatFrekvens.GetItemText(cboxNyUppdatFrekvens.SelectedItem));
                 string category = cboxNyKategori.GetItemText(cboxNyKategori.SelectedItem);
                 Feed feed = new Feed(tbNyUrl.Text);
@@ -195,7 +195,7 @@ namespace Main_Form
         {
             try
             {
-                Validering.IsEmpty(tbNyKategori.Text);
+                Main_Form.Validate.IsEmpty(tbNyKategori.Text);
                 Category kategori = new Category();
                 kategori.TheCategory = tbNyKategori.Text;
                 Categories.Add(kategori);
@@ -272,7 +272,7 @@ namespace Main_Form
                 {
                     try
                     {
-                        Validering.CheckRssLink(NewUrl);
+                        Main_Form.Validate.CheckRssLink(NewUrl);
                         FeedList[index].Url = NewUrl;
                         FeedList[index].ForceList();
                         FeedList[index].ForceName();

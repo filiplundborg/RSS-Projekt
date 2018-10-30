@@ -39,7 +39,7 @@ namespace Main_Form
         public int AmountOfEpisodes() => TheList != null ? TheList.Count : 0;
 
         public RssList<Episode> ForceList() {
-            TheList = RSSDataBaseHandling.GetAvsnitt(Url);
+            TheList = RSSDataBaseHandling.GetEpisodes(Url);
             return TheList;
         }
 
@@ -56,7 +56,7 @@ namespace Main_Form
             {
                 while (true)
                 {
-                    TheList = RSSDataBaseHandling.GetAvsnitt(Url);
+                    TheList = RSSDataBaseHandling.GetEpisodes(Url);
                     FeedChanged();
                     await Task.Delay(UpdatingInterval*60000);
                 }

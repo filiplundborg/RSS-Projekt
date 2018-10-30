@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows.Forms;
 
 namespace Main_Form
 {
-    public static class Validering
+    public static class Validate
     {
         public static bool IsEmpty(string toCheck)
         {
@@ -22,9 +18,9 @@ namespace Main_Form
                    
             }
         }
-        public static bool KollaOmCbTom(ComboBox attKolla)
+        public static bool CheckIfCbEmpty(ComboBox toCheck)
         {
-            if (attKolla.GetItemText(attKolla.SelectedItem).Length > 0)
+            if (toCheck.GetItemText(toCheck.SelectedItem).Length > 0)
             {
                 return true;
             }

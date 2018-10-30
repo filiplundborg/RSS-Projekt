@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ServiceModel.Syndication;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
-using System.Windows.Forms;
 
 namespace Main_Form
 {
@@ -16,15 +11,15 @@ namespace Main_Form
 
         private const string FILEPATH = "podcastfeed.xml";
 
-        public static string GetName(string path)
+        public static string GetName(string Path)
         {
             try
             {
-                string url = path;
-                var reader = XmlReader.Create(url);
-                var feed = SyndicationFeed.Load(reader);
+                
+                var Reader = XmlReader.Create(Path);
+                var Feed = SyndicationFeed.Load(Reader);
 
-                return feed.Title.Text;
+                return Feed.Title.Text;
 
             }
             catch (Exception)
@@ -35,25 +30,25 @@ namespace Main_Form
             }
         }
 
-        public static RssList<Episode> GetAvsnitt(string path)
+        public static RssList<Episode> GetEpisodes(string Path)
         {
             try
             {
-                string url = path;
-                var reader = XmlReader.Create(url);
-                var feed = SyndicationFeed.Load(reader);
-                RssList<Episode> listan = new RssList<Episode>();
+                
+                var Reader = XmlReader.Create(Path);
+                var Feed = SyndicationFeed.Load(Reader);
+                RssList<Episode> TheList = new RssList<Episode>();
 
-                foreach (var items in feed.Items)
+                foreach (var items in Feed.Items)
                 {
-                    Episode avsnitt = new Episode();
-                    avsnitt.Name = items.Title.Text;
-                    avsnitt.Description = items.Summary.Text.Replace("<p>", "").Replace("</p>", "");
+                    Episode Episode = new Episode();
+                    Episode.Name = items.Title.Text;
+                    Episode.Description = items.Summary.Text.Replace("<p>", "").Replace("</p>", "");
 
-                    listan.Add(avsnitt);
+                    TheList.Add(Episode);
                 }
 
-                return listan;
+                return TheList;
             }
             catch(Exception)
             {
@@ -65,9 +60,9 @@ namespace Main_Form
 
 
         public static void Serialize(FeedList feedList) {
-            var serializer = new XmlSerializer(typeof (FeedList));
-            using (var writer = new StreamWriter(FILEPATH)) {
-                serializer.Serialize(writer, feedList);
+            var Serializer = new XmlSerializer(typeof (FeedList));
+            using (var Writer = new StreamWriter(FILEPATH)) {
+                Serializer.Serialize(Writer, feedList);
             }
         }
 
